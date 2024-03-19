@@ -19,4 +19,26 @@ public class HomeController {
 		model.addAttribute("students", studentRep.findAll());
 		return "base";
 	}
+	
+	@GetMapping("/about")
+	public String about(Model model) {
+		model.addAttribute("page", "about");
+		return "base";
+	}
+	
+	@GetMapping("/login")
+	public String login(Model model) {
+		return "pages/login";
+	}
+	
+	@GetMapping("/signup")
+	public String signup(Model model) {
+		return "pages/signup";
+	}
+	
+	@GetMapping("/checking")
+	public String check(Model model) {
+		model.addAttribute("page", "check");
+		return "base";
+	}
 }
