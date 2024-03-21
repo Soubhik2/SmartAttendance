@@ -4,15 +4,15 @@
 
 <!-- <h1>${page}</h1> -->
 
-<!-- <div class="container w-25">
-	<c:forEach var="value" items="${students}">
+<div class="container w-25">
+	<c:forEach var="value" items="${users}">
 		<div class="card mt-4">
 		  <div class="card-body text-center">
-		    ${value.name}
+		    ${value}
 		  </div>
 		</div>
 	</c:forEach>
-</div> -->
+</div>
 
 <div class="px-4 pt-5 my-5 text-center border-bottom">
     <h1 class="display-4 fw-bold text-body-emphasis">SmartAttendance</h1>

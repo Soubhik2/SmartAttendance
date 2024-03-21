@@ -35,9 +35,9 @@
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div>
+  </div> -->
 
   <!-- Navbar -->  
   <jsp:include page="uitil/admin_header.jsp"/>
@@ -47,7 +47,9 @@
   <jsp:include page="uitil/admin_sidebar.jsp"/>
   
   <!-- Content Wrapper. Contains page content -->
-  <jsp:include page="pages/${page}.jsp"/>  
+  <div class="content-wrapper">
+    <jsp:include page="pages/${page}.jsp"/>  
+  </div>
   
   <!-- /.content-wrapper -->
   <jsp:include page="uitil/admin_footer.jsp"/>

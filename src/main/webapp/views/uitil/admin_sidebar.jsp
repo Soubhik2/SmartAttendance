@@ -2,6 +2,8 @@
 <%@page isELIgnored="false" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
+<% String pages = (String) request.getAttribute("page"); %>
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
@@ -39,7 +41,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link active">
+            <a href="/admin/dashboard" class="nav-link <%= pages.equals("dashboard")?"active":"" %>">
               <!-- <i class="nav-icon fas fa-th"></i> -->
               <i class="nav-icon bi bi-box-fill"></i>
               <p>
@@ -49,7 +51,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/students" class="nav-link <%= pages.equals("my_students")?"active":"" %>">
               <i class="nav-icon bi bi-clipboard-check-fill"></i>
               
               <p>
@@ -59,7 +61,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/check" class="nav-link <%= pages.equals("check_attendance")?"active":"" %>">
               <i class="nav-icon bi bi-bar-chart-fill"></i>
               <p>
                 Check Attendance
@@ -68,7 +70,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/classes" class="nav-link <%= pages.equals("my_classes")?"active":"" %>">
               <!-- <i class="nav-icon fas fa-th"></i> -->
               <i class="nav-icon bi bi-aspect-ratio-fill"></i>
               <p>
@@ -78,7 +80,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/add" class="nav-link <%= pages.equals("add_students")?"active":"" %>">
               <i class="nav-icon bi bi-plus-circle-fill"></i>
               <p>
                 Add students
