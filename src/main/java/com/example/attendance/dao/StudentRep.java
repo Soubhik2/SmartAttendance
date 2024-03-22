@@ -11,14 +11,14 @@ import com.example.attendance.entites.Student;
 
 @Repository
 public interface StudentRep extends CrudRepository<Student, Integer> {
-	public List<Student> findByName(String name);
+//	public List<Student> findByName(String name);
 	
 //	@Query("SELECT * FROM `student` WHERE `name` LIKE \"%?1%\"")
-	@Query(value = "SELECT * FROM student WHERE name LIKE %?1%", nativeQuery = true)
-	public List<Student> searchByName(String name);
-	
-	 @Query("SELECT s FROM Student s WHERE s.name = :name")
-	 List<Student> getByName(@Param("name") String name);
-	
-	public List<Student> findByNameLike(String name);
+//	@Query(value = "SELECT * FROM student WHERE name LIKE %?1%", nativeQuery = true)
+//	public List<Student> searchByName(String name);
+//	
+//	 @Query("SELECT s FROM Student s WHERE s.name = :name")
+//	 List<Student> getByName(@Param("name") String name);
+//	
+//	public List<Student> findByNameLike(String name);
 }

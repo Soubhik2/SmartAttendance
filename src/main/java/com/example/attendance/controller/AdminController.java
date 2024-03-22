@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.attendance.dao.StudentRep;
+import com.example.attendance.entites.Users;
+import com.example.attendance.model.Auth;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AdminController {
@@ -16,15 +22,35 @@ public class AdminController {
 	@Autowired
 	StudentRep studentRep;
 	
+	Auth auth;
+	
+	public AdminController(HttpServletRequest req) {
+		this.auth = new Auth(req);
+	}
+	
 	@GetMapping("/admin")
 //	@ResponseBody
 	public String index(Model model) {
-		return "redirect:/admin/dashboard";
+		if (auth.isLoggedin()) {
+			return "redirect:/admin/dashboard";
+		}else {
+			return "redirect:/login";
+		}
 	}
 
 	@GetMapping("/admin/dashboard")
 	public String dashboard(Model model) {
+		if (!auth.isLoggedin()) {
+			return "redirect:/";
+		}
+		
+		Users users = auth.getUser();
+		
+		System.out.println(users.getName());
+		
 		model.addAttribute("page", "dashboard");
+		model.addAttribute("json", users);
+		
 //		model.addAttribute("students", studentRep.findAll());
 		return "admin";
 	}
@@ -78,7 +104,18 @@ public class AdminController {
 	
 	@GetMapping("/admin/add")
 	public String Addstudents(Model model) {
+		if (!auth.isLoggedin()) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("page", "add_students");
 		return "admin";
 	}
+	
+	
+	@GetMapping("/logout")
+    public String clearSession() {
+        auth.logout();
+        return "redirect:/";
+    }
 }

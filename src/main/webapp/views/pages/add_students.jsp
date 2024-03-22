@@ -27,7 +27,7 @@
             </div>
             
             
-            <form>
+            <form id="addData">
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Student name</label>
@@ -42,12 +42,12 @@
                         <div class="row mb-3">
                             <div class="col-sm-5">
                                 <div class="form-group mb-0">
-                                    <input type="text" name="key_1" class="form-control" placeholder="Key">
+                                    <input type="text" id="key_1" class="form-control key" placeholder="Key">
                                 </div>
                             </div>
                             <div class="col-sm-5">
                                 <div class="form-group mb-0">
-                                    <input type="text" name="value_1" class="form-control" placeholder="Value">
+                                    <input type="text" id="value_1" class="form-control value" placeholder="Value">
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -58,7 +58,7 @@
                 </div>
             
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
             </div>
@@ -67,6 +67,43 @@
 </section>
 
 <script>
+
+    document.getElementById('addData').addEventListener('submit', event=>{
+        event.preventDefault();
+
+        let info = {};
+
+        // for (let i = 1; document.getElementById('key_'+i) != null; i++) {
+        //     // eval('info.'+document.getElementById('key_'+i).value+' = '+document.getElementById('value_'+i).value);
+        //     console.log(document.getElementById('key_'+i).value);
+        //     // eval
+        // }
+
+        for (let i = 0; i < document.getElementsByClassName('key').length; i++) {
+            const key = document.getElementsByClassName('key')[i];
+            const value = document.getElementsByClassName('value')[i];
+            // console.log(element.value);
+            eval('info.'+key.value+' = "'+value.value+'"');
+        }
+
+        let json = {
+            name: document.getElementById('name').value,
+            roll_no: roll.value,
+            info: JSON.stringify(info)
+        }
+
+        fetch("http://localhost:8080/admin/add",{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(json)
+        }).then(res=>res.json()).then(res=>{
+            console.log(res);
+        })
+        // console.log(json);
+    });
 
     let form_num = 1;
 
@@ -77,12 +114,12 @@
         div.innerHTML = `
             <div class="col-sm-5">
                 <div class="form-group mb-0">
-                    <input type="text" name="key_`+form_num+`" class="form-control" placeholder="Key">
+                    <input type="text" name="key_`+form_num+`" class="form-control key" placeholder="Key">
                 </div>
             </div>
             <div class="col-sm-5">
                 <div class="form-group mb-0">
-                    <input type="text" name="value_`+form_num+`" class="form-control" placeholder="Value">
+                    <input type="text" name="value_`+form_num+`" class="form-control value" placeholder="Value">
                 </div>
             </div>
             <div class="col-sm-2">

@@ -64,6 +64,7 @@ public class HomeController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				return "redirect:/admin";
 			}else {
 				alert.put("isOn", "true");
 				alert.put("type", "warning");

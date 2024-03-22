@@ -24,6 +24,9 @@
 <section class="content">
   <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
+    
+    <!-- <script>let json = '${json}';</script> -->
+
     <div class="row">
       <div class="col-lg-3 col-6">
         <!-- small box -->
@@ -154,3 +157,7 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<script>
+  // json = JSON.parse(json);
+</script>
