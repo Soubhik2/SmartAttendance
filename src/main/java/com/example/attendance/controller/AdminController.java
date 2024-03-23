@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
 import com.example.attendance.entites.Users;
 import com.example.attendance.model.Auth;
@@ -21,6 +22,8 @@ public class AdminController {
 
 	@Autowired
 	StudentRep studentRep;
+	@Autowired
+	SectionRef sectionRef;
 	
 	Auth auth;
 	
@@ -58,13 +61,14 @@ public class AdminController {
 	@GetMapping("/admin/students")
 	public String Mystudents(Model model) {
 		model.addAttribute("page", "my_students");
+		model.addAttribute("students", studentRep.findByUid(auth.getUser().getUid()));
 		return "admin";
 	}
 	
 	@GetMapping("/admin/students/{id}")
-	public String Viewstudent(Model model, @PathVariable("id") String StudentId) {
+	public String Viewstudent(Model model, @PathVariable("id") int StudentId) {
 		model.addAttribute("page", "student_view");
-		model.addAttribute("StudentId", StudentId);
+		model.addAttribute("Student", studentRep.findBySid(StudentId));
 		return "admin";
 	}
 	
@@ -92,6 +96,7 @@ public class AdminController {
 	@GetMapping("/admin/classes")
 	public String MyClasses(Model model) {
 		model.addAttribute("page", "my_classes");
+		model.addAttribute("classes", sectionRef.findByUid(auth.getUser().getUid()));
 		return "admin";
 	}
 	
@@ -99,6 +104,16 @@ public class AdminController {
 	public String Attendance(Model model, @PathVariable("id") String TableId) {
 		model.addAttribute("page", "attendance");
 		model.addAttribute("TableId", TableId);
+		return "admin";
+	}
+	
+	@GetMapping("/admin/classes/add")
+	public String Addclasses(Model model) {
+		if (!auth.isLoggedin()) {
+			return "redirect:/";
+		}
+		
+		model.addAttribute("page", "add_classes");
 		return "admin";
 	}
 	

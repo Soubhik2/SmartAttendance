@@ -18,8 +18,24 @@
     </div><!-- /.container-fluid -->
 </div>
 
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Add Classes</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a class="btn btn-success" href="/admin/classes/add">Add</a></li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
 <section class="content">
     <div class="container-fluid">
+     
         <div class="table-s">
             <div class="col-12">
               <div class="card">
@@ -50,30 +66,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/classes/50001" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/classes/50002" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/classes/50003" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/classes/50004" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                      </tr>
+                    
+                    	<c:forEach var="value" items="${classes}">                    		
+	                      <tr>
+	                        <td>${value.seid}</td>
+	                        <td>${value.s_name}</td>
+	                        <td>${value.LUP}</td>
+	                        <td><a href="/admin/classes/${value.seid}" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
+	                      </tr>
+                    	</c:forEach>
+                      
                     </tbody>
                   </table>
                 </div>

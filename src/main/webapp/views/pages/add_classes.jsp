@@ -6,12 +6,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Add Students</h1>
+          <h1 class="m-0">My Classes</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-            <li class="breadcrumb-item active">Add Students</li>
+            <li class="breadcrumb-item"><a href="/admin/classes">My Classes</a></li>
+            <li class="breadcrumb-item active">Add Classes</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -20,33 +21,7 @@
 
 <section class="content">
     <div class="container-fluid">
-
-        <!-- <div class="card card-warning card-outline">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-edit"></i>
-                Toastr Examples
-              </h3>
-            </div>
-            <div class="card-body">
-              <button type="button" class="btn btn-success toastrDefaultSuccess">
-                Launch Success Toast
-              </button>
-              <button type="button" class="btn btn-info toastrDefaultInfo">
-                Launch Info Toast
-              </button>
-              <button type="button" class="btn btn-danger toastrDefaultError">
-                Launch Error Toast
-              </button>
-              <button type="button" class="btn btn-warning toastrDefaultWarning">
-                Launch Warning Toast
-              </button>
-              <div class="text-muted mt-3">
-                For more examples look at <a href="https://codeseven.github.io/toastr/">https://codeseven.github.io/toastr/</a>
-              </div>
-            </div>
-          </div> -->
-
+        
         <div class="card card-primary">
             <div class="card-header">
             <h3 class="card-title">Quick Example</h3>
@@ -56,12 +31,8 @@
             <form id="addData">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Student name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Student name">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Roll number</label>
-                        <input type="text" class="form-control" id="roll" name="roll" placeholder="Roll number">
+                        <label for="exampleInputEmail1">Class name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Class name">
                     </div>
                     <label>More info</label>
                     <div id="inForm">
@@ -88,7 +59,7 @@
                 </div>
             </form>
         </div>
-      
+
     </div>
 </section>
 
@@ -99,12 +70,6 @@
 
         let info = {};
 
-        // for (let i = 1; document.getElementById('key_'+i) != null; i++) {
-        //     // eval('info.'+document.getElementById('key_'+i).value+' = '+document.getElementById('value_'+i).value);
-        //     console.log(document.getElementById('key_'+i).value);
-        //     // eval
-        // }
-
         for (let i = 0; i < document.getElementsByClassName('key').length; i++) {
             const key = document.getElementsByClassName('key')[i];
             const value = document.getElementsByClassName('value')[i];
@@ -113,12 +78,11 @@
         }
 
         let json = {
-            name: document.getElementById('name').value,
-            roll_no: roll.value,
+            s_name: document.getElementById('name').value,
             info: JSON.stringify(info)
         }
 
-        fetch("http://localhost:8080/admin/add",{
+        fetch("http://localhost:8080/admin/classes/add",{
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -128,9 +92,9 @@
         }).then(res=>res.json()).then(res=>{
             console.log(res);
             if (!res.error) {
-                toastr.success('Student added successfully');
+                toastr.success('Class added successfully');
             } else {
-                toastr.warning('Some problem to add student');
+                toastr.warning('Some problem to add Class');
             }
         })
         // console.log(json);

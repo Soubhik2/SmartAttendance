@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
+import com.example.attendance.entites.Section;
 import com.example.attendance.entites.Student;
 import com.example.attendance.entites.Users;
 import com.example.attendance.model.Auth;
+import com.example.attendance.model.JsonRes;
 import com.example.attendance.model.TestModel;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +30,8 @@ public class ApiController {
 	
 	@Autowired
 	StudentRep studentRep;
+	@Autowired
+	SectionRef sectionRef;
 	
 	Auth auth;
 	
@@ -41,14 +46,39 @@ public class ApiController {
 	}
 	
 	@PostMapping("/admin/add")
-	public Student Addstudents(@RequestBody Student student) {
+	public JsonRes Addstudents(@RequestBody Student student) {
 		if (!auth.isLoggedin()) {
-			return student;
+			return new JsonRes(true, "user is not login");
 		}
-		student.setActive(1);
-		student.setUid(auth.getUser().getUid());
-		studentRep.save(student);
-		return student;
+		
+		try {			
+			student.setActive(1);
+			student.setUid(auth.getUser().getUid());
+			studentRep.save(student);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(true, "save error");
+		}
+	}
+	
+	@PostMapping("/admin/classes/add")
+	public JsonRes Addclasses(@RequestBody Section section) {
+		if (!auth.isLoggedin()) {
+			return new JsonRes(true, "user is not login");
+		}
+		
+		try {			
+			section.setUid(auth.getUser().getUid());
+			section.setActive(1);
+			sectionRef.save(section);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(true, "save error");
+		}
+//		System.out.println(section);
+//		return "admin";
 	}
 	
 	@GetMapping("/getSessionData")

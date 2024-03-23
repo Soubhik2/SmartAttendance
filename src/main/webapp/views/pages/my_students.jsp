@@ -20,6 +20,7 @@
 
 <section class="content">
     <div class="container-fluid">
+    
       <div class="table-s">
         <div class="col-12">
           <div class="card">
@@ -50,30 +51,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Student name</td>
-                    <td>34600120001</td>
-                    <td><a href="/admin/students/34600120001" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Student name</td>
-                    <td>34600120002</td>
-                    <td><a href="/admin/students/34600120002" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Student name</td>
-                    <td>34600120003</td>
-                    <td><a href="/admin/students/34600120003" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Student name</td>
-                    <td>34600120004</td>
-                    <td><a href="/admin/students/34600120004" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                  </tr>
+                	<c:forEach var="element" items="${students}">                		
+	                  <tr>
+	                    <td>${element.sid}</td>
+	                    <td>${element.name}</td>
+	                    <td>${element.roll_no}</td>
+	                    <td><a href="/admin/students/${element.sid}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
+	                  </tr>
+                	</c:forEach>
+                  
                 </tbody>
               </table>
             </div>

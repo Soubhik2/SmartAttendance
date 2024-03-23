@@ -21,17 +21,28 @@
 
 <section class="content">
     <div class="container-fluid">
-
       <div class="card">
         <div class="card-body">
-          <h3>Name: Student name</h3>
-          <h3>Roll number: ${StudentId}</h3>
-          <h3>
+          <h3>Name: ${Student.name}</h3>
+          <h3>Roll number: ${Student.roll_no}</h3>
+          <h3 id="info">
             More info:
-            <p>json info</p>
+           
           </h3>
         </div>
       </div>
       
     </div>
 </section>
+
+<script>
+  let json = JSON.parse('${Student.info}');
+  for (const key in json) {
+    if (json.hasOwnProperty.call(json, key)) {
+      let p = document.createElement('p');
+      p.className = "ml-4";
+      p.innerHTML = key+': '+json[key];
+      info.appendChild(p);
+    }
+  }
+</script>

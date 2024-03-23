@@ -11,6 +11,10 @@ import com.example.attendance.entites.Student;
 
 @Repository
 public interface StudentRep extends CrudRepository<Student, Integer> {
+	
+	public List<Student> findByUid(int uid);
+	public Student findBySid(int sid);
+	
 //	public List<Student> findByName(String name);
 	
 //	@Query("SELECT * FROM `student` WHERE `name` LIKE \"%?1%\"")

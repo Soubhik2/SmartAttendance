@@ -48,7 +48,7 @@
         <div class="dropdown-menu dropdown-menu-lg p-3">
           <h4 class="text-center">Do you want to logout</h4>
           <div class="d-flex justify-content-around mt-3">
-            <button class="btn btn-danger w-25">Yes</button>
+            <a href="/logout" class="btn btn-danger w-25">Yes</a>
             <button class="btn btn-secondary w-25">No</button>
           </div>
 
