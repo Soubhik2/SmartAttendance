@@ -1,6 +1,7 @@
 package com.example.attendance.restcontroller;
 
 import java.lang.reflect.Array;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.attendance.dao.AttendanceLogRep;
 import com.example.attendance.dao.AttendanceRep;
 import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
 import com.example.attendance.entites.Attendance;
+import com.example.attendance.entites.AttendanceLog;
 import com.example.attendance.entites.Section;
 import com.example.attendance.entites.Student;
 import com.example.attendance.entites.Users;
@@ -37,6 +40,8 @@ public class ApiController {
 	SectionRef sectionRef;
 	@Autowired
 	AttendanceRep attendanceRep;
+	@Autowired
+	AttendanceLogRep attendanceLogRep;
 	
 	Auth auth;
 	
@@ -131,6 +136,36 @@ public class ApiController {
 			return new JsonRes(true, "ERROR: "+e);
 		}
 //		return new JsonRes(false, "ERROR: ");
+	}
+	
+	@GetMapping("/get/attendance/log")
+	public List<AttendanceLog> getAttendanceLog(@RequestParam ("id") int tableId, @RequestParam ("t") String date) {
+		return attendanceLogRep.getAttendance(tableId, date);
+	}
+	
+	@PostMapping("/update/attendance/log")
+	public JsonRes getAttendanceLog(@RequestBody AttendanceLog attendanceLog) {
+//		System.out.println(attendanceLog);
+		try {			
+			attendanceLogRep.save(attendanceLog);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(false, "ERROR: "+e);
+		}
+	}
+	
+	@PostMapping("/set/attendance/log")
+	public JsonRes setAttendanceLog(@RequestBody AttendanceLog attendanceLog) {
+		System.out.println(attendanceLog);
+		try {			
+			attendanceLogRep.save(attendanceLog);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(false, "ERROR: "+e);
+		}
+		
 	}
 	
 }

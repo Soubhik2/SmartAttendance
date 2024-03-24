@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.attendance.dao.AttendanceLogRep;
 import com.example.attendance.dao.AttendanceRep;
 import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
@@ -28,6 +29,8 @@ public class AdminController {
 	SectionRef sectionRef;
 	@Autowired
 	AttendanceRep attendanceRep;
+	@Autowired
+	AttendanceLogRep attendanceLogRep;
 	
 	Auth auth;
 	
@@ -132,6 +135,13 @@ public class AdminController {
 	public String Attendance(Model model, @PathVariable("id") int TableId) {
 		model.addAttribute("page", "attendance");
 		model.addAttribute("TableId", TableId);
+		model.addAttribute("students", attendanceRep.findBySeid(TableId));
+		try {
+			model.addAttribute("json", new ObjectMapper().writeValueAsString(attendanceRep.findBySeid(TableId)));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "admin";
 	}
 	

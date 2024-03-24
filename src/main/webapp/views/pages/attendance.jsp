@@ -53,46 +53,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Student name</td>
-                    <td>34600120001</td>
-                    <td><input type="text" class="form-control w-auto" id="exampleInput" value="none" disabled></td>
-                    <td>
-                      <button class="btn btn-success mr-3">P</button>
-                      <button class="btn btn-danger">A</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Student name</td>
-                    <td>34600120002</td>
-                    <td><input type="text" class="form-control w-auto" id="exampleInput" value="none" disabled></td>
-                    <td>
-                      <button class="btn btn-success mr-3">P</button>
-                      <button class="btn btn-danger">A</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Student name</td>
-                    <td>34600120003</td>
-                    <td><input type="text" class="form-control w-auto" id="exampleInput" value="none" disabled></td>
-                    <td>
-                      <button class="btn btn-success mr-3">P</button>
-                      <button class="btn btn-danger">A</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Student name</td>
-                    <td>34600120004</td>
-                    <td><input type="text" class="form-control w-auto" id="exampleInput" value="none" disabled></td>
-                    <td>
-                      <button class="btn btn-success mr-3">P</button>
-                      <button class="btn btn-danger">A</button>
-                    </td>
-                  </tr>
+                  <c:forEach var="element" items="${students}" varStatus="loop">                		
+                    <tr>
+                      <td>${loop.index+1}</td>
+                      <td>${element.student}</td>
+                      <td>${element.roll_no}</td>
+                      <td><input type="text" class="form-control w-auto" id="${loop.index}" value="none" disabled></td>
+                      <td>
+                        <button onclick="P('${loop.index}')" class="btn btn-success mr-3">P</button>
+                        <button onclick="A('${loop.index}')" class="btn btn-danger">A</button>
+                      </td>
+                    </tr>
+                  </c:forEach>
                 </tbody>
               </table>
             </div>
@@ -104,3 +76,113 @@
 
     </div>
 </section>
+
+<script>
+  let log = [];
+  let students = '${json}';
+  // students.replace('/', '');
+  students = students.replaceAll('"{', '{');
+  students = students.replaceAll('}"', '}');
+  students = JSON.parse(students);
+
+  let time = new Date().getFullYear()+"-0"+(new Date().getMonth()+1)+"-"+new Date().getDate();
+  // let time = new Date().getFullYear()+"-0"+(new Date().getMonth()+1)+"-25";
+
+  fetch("http://localhost:8080/get/attendance/log?id=${TableId}&t="+time).then(res=>res.json()).then(res=>{
+    // console.log(res);
+    log = res;
+    res.forEach((element, index) => {
+      document.getElementById(index).value = element.attendance;
+    });
+  });
+  
+  function P(id){
+    let json = {
+        seid: '${id}',
+        sid: students[id].sid,
+        student: students[id].student,
+        roll_no: students[id].roll_no,
+        attendance: "P",
+        active: 1,
+    };
+
+    if (document.getElementById(id).value == "none") {
+      // console.log("set");
+      fetch("http://localhost:8080/set/attendance/log",{
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(json)
+      }).then(res=>res.json()).then(res=>{
+          console.log(res);
+          if (!res.error) {
+            document.getElementById(id).value = "P";
+          }
+      });
+    }else{
+      // console.log('update');
+      log[id].attendance = "P";
+      fetch("http://localhost:8080/update/attendance/log",{
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(log[id])
+      }).then(res=>res.json()).then(res=>{
+          console.log(res);
+          if (!res.error) {
+            document.getElementById(id).value = "P";
+          }
+      });
+    }
+
+  }
+
+  function A(id){
+    let json = {
+        seid: '${id}',
+        sid: students[id].sid,
+        student: students[id].student,
+        roll_no: students[id].roll_no,
+        attendance: "A",
+        active: 1,
+    };
+
+    if (document.getElementById(id).value == "none") {
+      // console.log("set");
+      fetch("http://localhost:8080/set/attendance/log",{
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(json)
+      }).then(res=>res.json()).then(res=>{
+          console.log(res);
+          if (!res.error) {
+            document.getElementById(id).value = "A";
+          }
+      });
+    }else{
+      // console.log('update');
+      log[id].attendance = "A";
+      fetch("http://localhost:8080/update/attendance/log",{
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(log[id])
+      }).then(res=>res.json()).then(res=>{
+          console.log(res);
+          if (!res.error) {
+            document.getElementById(id).value = "A";
+          }
+      });
+    }
+  }
+
+</script>
