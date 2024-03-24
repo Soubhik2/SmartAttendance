@@ -11,10 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.attendance.dao.AttendanceRep;
 import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
+import com.example.attendance.entites.Attendance;
 import com.example.attendance.entites.Section;
 import com.example.attendance.entites.Student;
 import com.example.attendance.entites.Users;
@@ -32,6 +35,8 @@ public class ApiController {
 	StudentRep studentRep;
 	@Autowired
 	SectionRef sectionRef;
+	@Autowired
+	AttendanceRep attendanceRep;
 	
 	Auth auth;
 	
@@ -102,5 +107,30 @@ public class ApiController {
         // Redirect to another page or return a view name
         return json;
     }
+	
+	@PostMapping("/admin/classes/addStudents")
+	public JsonRes addClasses(@RequestBody Attendance attendance) {
+		try {
+			attendanceRep.save(attendance);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(true, "ERROR: "+e);
+		}
+		
+	}
+	
+	@GetMapping("/admin/classes/remStudents")
+	public JsonRes remClasses(@RequestParam("id") int id) {
+//		System.out.println(id);
+		try {
+			attendanceRep.deleteById(id);
+			return new JsonRes(false, "done");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new JsonRes(true, "ERROR: "+e);
+		}
+//		return new JsonRes(false, "ERROR: ");
+	}
 	
 }

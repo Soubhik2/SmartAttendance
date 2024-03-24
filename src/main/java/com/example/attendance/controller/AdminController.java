@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.attendance.dao.AttendanceRep;
 import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
 import com.example.attendance.entites.Users;
 import com.example.attendance.model.Auth;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +26,8 @@ public class AdminController {
 	StudentRep studentRep;
 	@Autowired
 	SectionRef sectionRef;
+	@Autowired
+	AttendanceRep attendanceRep;
 	
 	Auth auth;
 	
@@ -100,8 +104,32 @@ public class AdminController {
 		return "admin";
 	}
 	
+	@GetMapping("/admin/classes/adds")
+	public String addClasses(Model model, @RequestParam("id") int id, @RequestParam("p") String p) {
+		model.addAttribute("page", "add_classes_student");
+		model.addAttribute("p", p);
+		model.addAttribute("id", id);
+		if (p.equals("add")) {			
+			model.addAttribute("students", studentRep.findByUid(auth.getUser().getUid()));
+		}else {
+			model.addAttribute("students", attendanceRep.findBySeid(id));		
+		}
+		try {
+			if (p.equals("add")) {				
+				model.addAttribute("json", new ObjectMapper().writeValueAsString(studentRep.findByUid(auth.getUser().getUid())));
+			}else {
+				model.addAttribute("json", new ObjectMapper().writeValueAsString(attendanceRep.findBySeid(id)));				
+			}
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println(e);
+		}
+		return "admin";
+	}
+	
 	@GetMapping("/admin/classes/{id}")
-	public String Attendance(Model model, @PathVariable("id") String TableId) {
+	public String Attendance(Model model, @PathVariable("id") int TableId) {
 		model.addAttribute("page", "attendance");
 		model.addAttribute("TableId", TableId);
 		return "admin";

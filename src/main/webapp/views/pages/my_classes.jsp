@@ -36,6 +36,7 @@
 <section class="content">
     <div class="container-fluid">
      
+
         <div class="table-s">
             <div class="col-12">
               <div class="card">
@@ -60,9 +61,11 @@
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Table name</th>
+                        <th>Class name</th>
                         <th>Time</th>
                         <th>Attendance</th>
+                        <th>Add students</th>
+                        <th>Update students</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -72,7 +75,9 @@
 	                        <td>${value.seid}</td>
 	                        <td>${value.s_name}</td>
 	                        <td>${value.LUP}</td>
-	                        <td><a href="/admin/classes/${value.seid}" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
+	                        <td><a href="/admin/classes/${value.seid}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a></td>
+	                        <td><a href="/admin/classes/adds?id=${value.seid}&p=add" class="btn btn-success"><i class="bi bi-plus-circle"></i></a></td>
+	                        <td><a href="/admin/classes/adds?id=${value.seid}&p=update" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></a></td>
 	                      </tr>
                     	</c:forEach>
                       
