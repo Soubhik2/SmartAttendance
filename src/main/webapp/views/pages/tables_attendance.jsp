@@ -52,30 +52,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Student name</td>
-                        <td>34600120001</td>
-                        <td><a href="/admin/check/view?roll=34600120001&sec=${TableId}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Student name</td>
-                        <td>34600120002</td>
-                        <td><a href="/admin/check/view?roll=34600120002&sec=${TableId}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Student name</td>
-                        <td>34600120003</td>
-                        <td><a href="/admin/check/view?roll=34600120003&sec=${TableId}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Student name</td>
-                        <td>34600120004</td>
-                        <td><a href="/admin/check/view?roll=34600120004&sec=${TableId}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
-                      </tr>
+	                   	<c:forEach var="element" items="${students}" varStatus="loop">                    		
+	                      <tr>
+	                        <td>${loop.index+1}</td>
+	                        <td>${element.student}</td>
+	                        <td>${element.roll_no}</td>
+	                        <td><a href="/admin/check/view?roll=${element.roll_no}&sec=${TableId}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a></td>
+	                      </tr>
+	                   	</c:forEach>
                     </tbody>
                   </table>
                 </div>

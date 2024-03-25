@@ -51,30 +51,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/check/500001" class="btn btn-success">View</button></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/check/500002" class="btn btn-success">View</button></td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/check/500003" class="btn btn-success">View</button></td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Class name</td>
-                        <td>11-7-2014</td>
-                        <td><a href="/admin/check/500004" class="btn btn-success">View</button></td>
-                      </tr>
+                    	<c:forEach var="value" items="${classes}" varStatus="loop">                    		
+	                      <tr>
+	                        <td>${loop.index+1}</td>
+	                        <td>${value.s_name}</td>
+	                        <td>${value.CT}</td>
+	                        <td><a href="/admin/check/${value.seid}" class="btn btn-success"><i class="bi bi-eye-fill"></i></button></td>
+	                      </tr>
+                    	</c:forEach>
                     </tbody>
                   </table>
                 </div>

@@ -82,13 +82,15 @@ public class AdminController {
 	@GetMapping("/admin/check")
 	public String CheckAttendance(Model model) {
 		model.addAttribute("page", "check_attendance");
+		model.addAttribute("classes", sectionRef.findByUid(auth.getUser().getUid()));
 		return "admin";
 	}
 	
 	@GetMapping("/admin/check/{id}")
-	public String TablesAttendance(Model model, @PathVariable("id") String TableId) {
+	public String TablesAttendance(Model model, @PathVariable("id") int TableId) {
 		model.addAttribute("page", "tables_attendance");
 		model.addAttribute("TableId", TableId);
+		model.addAttribute("students", attendanceRep.findBySeid(TableId));
 		return "admin";
 	}
 	
