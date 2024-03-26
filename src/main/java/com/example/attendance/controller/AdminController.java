@@ -1,5 +1,6 @@
 package com.example.attendance.controller;
 
+import org.eclipse.tags.shaded.org.apache.bcel.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,10 +96,17 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/check/view")
-	public String ViewAttendance(Model model, @RequestParam("roll") String roll, @RequestParam("sec") String sec) {
+	public String ViewAttendance(Model model, @RequestParam("roll") String roll, @RequestParam("sec") int sec) {
 		model.addAttribute("page", "view_attendance");
 		model.addAttribute("roll", roll);
 		model.addAttribute("sec", sec);
+		model.addAttribute("count", attendanceLogRep.countAttendance(roll, sec, "2024-01", "P"));
+		try {
+			model.addAttribute("alog", new ObjectMapper().writeValueAsString(attendanceLogRep.getAttendance(roll, sec, "2024-01")));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "admin";
 	}
 	
