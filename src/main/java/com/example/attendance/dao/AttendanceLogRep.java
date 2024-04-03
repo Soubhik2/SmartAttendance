@@ -20,6 +20,10 @@ public interface AttendanceLogRep extends CrudRepository<AttendanceLog, Integer>
 	@Query(value = "SELECT * FROM `attendance_log` WHERE `roll_no` = ?1 AND `seid` = ?2 AND `AUP` LIKE %?3% AND `attendance` = ?4", nativeQuery = true)
 	public List<AttendanceLog> getAttendance(String roll ,int seid, String AUP, String attendance);
 	
+	@Query(value = "SELECT COUNT(*) FROM `attendance_log` WHERE `roll_no` = ?1 AND `seid` = ?2 AND `AUP` LIKE %?3%", nativeQuery = true)
+	public long countAttendance(String roll ,int seid, String AUP);
+	
 	@Query(value = "SELECT COUNT(*) FROM `attendance_log` WHERE `roll_no` = ?1 AND `seid` = ?2 AND `AUP` LIKE %?3% AND `attendance` = ?4", nativeQuery = true)
 	public long countAttendance(String roll ,int seid, String AUP, String attendance);
+	
 }

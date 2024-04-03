@@ -21,9 +21,44 @@
 
 <section class="content">
     <div class="container-fluid">
-        <h4>${roll}</h4>
-        <h4>${sec}</h4>
-        <p>${count}</p>
+        <!-- <h4>${roll}</h4> -->
+        <!-- <h4>${sec}</h4> -->
+        <!-- <p>${count}</p> -->
+
+        <div class="card">
+          <div class="card-body">
+  
+              <table class="table table-striped">
+                  <thead id="head">
+                    <!-- <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr> -->
+                  </thead>
+                  <tbody id="body">
+                    <!-- <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td colspan="2">Larry the Bird</td>
+                      <td>@twitter</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+          </div>
+        </div>
 
         <div class="table-s">
             <div class="col-12">
@@ -79,6 +114,8 @@
 </tbody> 
 -->
 
+
+
 <script>
 
   let date = new Date().getDate();
@@ -95,6 +132,7 @@
     }
     TimeSet();
     getData(month, year);
+    getAtt()
   }
 
   function next(){
@@ -105,6 +143,7 @@
     }
     TimeSet();
     getData(month, year);
+    getAtt()
   }
 
   getData(month, year);
@@ -112,7 +151,7 @@
   function getData(month, year){
     fetch("http://localhost:8080/get/attendance/all?roll=${roll}&id=${sec}&t="+year+'-'+num_prefix(month)).then(res=>res.json()).then(res=>{
       res = correctAttendanceList(res, getDaysInMont(month,year));
-      console.log(res);
+      // console.log(res);
       display(res, month, year);
     })
   }
@@ -227,42 +266,48 @@
     //     ["2","Jacob","Thornton","@twitter"]
     // ];
 
-    // fetch('http://localhost:8080/api/getList').then(res=>res.json()).then(res=>{
-    //     table(res);
-    // })
+    getAtt();
+
+    function getAtt(){
+      fetch('http://localhost:8080/get/attendance/info?roll=${roll}&id=${sec}&t='+year+'-'+num_prefix(month)).then(res=>res.json()).then(res=>{
+          table(res);
+      });
+    }
 
     // table(data);
 
     // table create and add
     // table(data);
     
-    // function table(data) {
-    //     data.forEach((items, index) => {
-    //         let tr = document.createElement("tr");
-    //         if (index > 0) {
-    //             items.forEach((value, index) => {
-    //                 if (index == 0) {
-    //                     var t = document.createElement("th");
-    //                     t.scope = "row";
-    //                     t.innerHTML = value;
-    //                 } else {
-    //                     var t = document.createElement("td");
-    //                     t.innerHTML = value;
-    //                 }
-    //                 tr.appendChild(t);
-    //             });
-    //             body.appendChild(tr);
-    //         } else {
-    //             items.forEach(element => {
-    //                 let th = document.createElement("th");
-    //                 th.scope = "col";
-    //                 th.innerHTML = element;
-    //                 tr.appendChild(th);
-    //             });
-    //             head.appendChild(tr);
-    //         }
-    //     });
-    // }
+    function table(data) {
+        head.innerHTML = '';
+        body.innerHTML = '';
+        data.forEach((items, index) => {
+            let tr = document.createElement("tr");
+            if (index > 0) {
+                items.forEach((value, index) => {
+                    if (index == 0) {
+                        var t = document.createElement("th");
+                        t.scope = "row";
+                        t.innerHTML = value;
+                    } else {
+                        var t = document.createElement("td");
+                        t.innerHTML = value;
+                    }
+                    tr.appendChild(t);
+                });
+                body.appendChild(tr);
+            } else {
+                items.forEach(element => {
+                    let th = document.createElement("th");
+                    th.scope = "col";
+                    th.innerHTML = element;
+                    tr.appendChild(th);
+                });
+                head.appendChild(tr);
+            }
+        });
+    }
 
 </script>
 

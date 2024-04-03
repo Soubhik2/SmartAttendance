@@ -70,12 +70,12 @@
                     </thead>
                     <tbody>
                     
-                    	<c:forEach var="value" items="${classes}">                    		
+                    	<c:forEach var="value" items="${classes}" varStatus="loop">                    		
 	                      <tr>
 	                        <td>${value.seid}</td>
 	                        <td>${value.s_name}</td>
 	                        <td>${value.LUP}</td>
-	                        <td><a href="/admin/classes/${value.seid}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a></td>
+	                        <td><button id="${loop.index}" onclick="save('${loop.index}', '${value.seid}')" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></td>
 	                        <td><a href="/admin/classes/adds?id=${value.seid}&p=add" class="btn btn-success"><i class="bi bi-plus-circle"></i></a></td>
 	                        <td><a href="/admin/classes/adds?id=${value.seid}&p=update" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></a></td>
 	                      </tr>
@@ -91,3 +91,19 @@
         </div>
     </div>
 </section>
+
+<script>
+  let classes = '${json_classes}';
+  classes = classes.replaceAll('"{', '{');
+  classes = classes.replaceAll('}"', '}');
+  classes = JSON.parse(classes);
+
+  function save(id, seid){
+    console.log(classes[id]);
+    let arr = localStorage.getItem('classes')==undefined?[]:JSON.parse(localStorage.getItem('classes'));
+    arr.push(classes[id]);
+    localStorage.setItem("classes", JSON.stringify(arr));
+    window.location = '/admin/classes/'+seid;
+  }
+
+</script>

@@ -114,6 +114,12 @@ public class AdminController {
 	public String MyClasses(Model model) {
 		model.addAttribute("page", "my_classes");
 		model.addAttribute("classes", sectionRef.findByUid(auth.getUser().getUid()));
+		try {
+			model.addAttribute("json_classes", new ObjectMapper().writeValueAsString(sectionRef.findByUid(auth.getUser().getUid())));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "admin";
 	}
 	

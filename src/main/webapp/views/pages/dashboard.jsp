@@ -115,36 +115,21 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Table name</th>
-                  <th>Time</th>
-                  <th>Display</th>
+                  <th>Class name</th>
+                  <th>Attendance</th>
+                  <th>Add students</th>
+                  <th>Update students</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Class name</td>
-                  <td>11-7-2014</td>
-                  <td><a href="/admin/classes/50001" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Class name</td>
-                  <td>11-7-2014</td>
-                  <td><a href="/admin/classes/50002" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Class name</td>
-                  <td>11-7-2014</td>
-                  <td><a href="/admin/classes/50003" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Class name</td>
-                  <td>11-7-2014</td>
-                  <td><a href="/admin/classes/50004" class="btn btn-success"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
+              <tbody id="trb">          		
+                <!-- <tr>
+                  <td>${value.seid}</td>
+                  <td>${value.s_name}</td>
+                  <td>${value.LUP}</td>
+                  <td><button id="${loop.index}" onclick="save('${loop.index}', '${value.seid}')" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></td>
+                  <td><a href="/admin/classes/adds?id=${value.seid}&p=add" class="btn btn-success"><i class="bi bi-plus-circle"></i></a></td>
+                  <td><a href="/admin/classes/adds?id=${value.seid}&p=update" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></a></td>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -160,4 +145,22 @@
 
 <script>
   // json = JSON.parse(json);
+  let classes = JSON.parse(localStorage.getItem('classes'));
+  classes.forEach((element, index) => {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <tr>
+        <td>`+element.seid+`</td>
+        <td>`+element.s_name+`</td>
+        <td><button id="`+index+`" onclick="save('`+index+`', '`+element.seid+`')" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></td>
+        <td><a href="/admin/classes/adds?id=`+element.seid+`&p=add" class="btn btn-success"><i class="bi bi-plus-circle"></i></a></td>
+        <td><a href="/admin/classes/adds?id=`+element.seid+`&p=update" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></a></td>
+      </tr>
+    `;
+    trb.appendChild(tr);
+  });
+
+  function save(id, seid){
+    window.location = '/admin/classes/'+seid;
+  }
 </script>

@@ -85,17 +85,18 @@
   students = students.replaceAll('}"', '}');
   students = JSON.parse(students);
 
-  let time = new Date().getFullYear()+"-0"+(new Date().getMonth()+1)+"-"+new Date().getDate();
+  let time = new Date().getFullYear()+"-"+num_prefix(new Date().getMonth()+1)+"-"+num_prefix(new Date().getDate());
+  console.log(time);
   // let time = new Date().getFullYear()+"-0"+(new Date().getMonth()+1)+"-25";
 
   fetch("http://localhost:8080/get/attendance/log?id=${TableId}&t="+time).then(res=>res.json()).then(res=>{
-    // console.log(res);
+    console.log(res);
     log = res;
     res.forEach((element, index) => {
       document.getElementById(index).value = element.attendance;
     });
   });
-  
+
   function P(id){
     let json = {
         seid: '${id}',
@@ -185,4 +186,10 @@
     }
   }
 
+  function num_prefix(num){
+    if (num.toString().length<2)
+      return '0'+num;
+    else
+      return num.toString();
+  }
 </script>

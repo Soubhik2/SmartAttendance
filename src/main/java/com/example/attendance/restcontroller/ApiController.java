@@ -27,6 +27,7 @@ import com.example.attendance.entites.Section;
 import com.example.attendance.entites.Student;
 import com.example.attendance.entites.Users;
 import com.example.attendance.model.Auth;
+import com.example.attendance.model.CalculateAttendancePercentage;
 import com.example.attendance.model.JsonRes;
 import com.example.attendance.model.TestModel;
 
@@ -143,6 +144,27 @@ public class ApiController {
 	@GetMapping("/get/attendance/log")
 	public List<AttendanceLog> getAttendanceLog(@RequestParam ("id") int tableId, @RequestParam ("t") String date) {
 		return attendanceLogRep.getAttendance(tableId, date);
+	}
+	
+	@GetMapping("/get/attendance/info")
+	public List<String[]> getAttendanceInfo(@RequestParam ("roll") String roll, @RequestParam ("id") int tableId, @RequestParam ("t") String date) {
+		List<String[]> lists = new LinkedList<String[]>();
+		
+		lists.add(new String[] {"id","Attendance","Percentage","Total Class"}); // PRESENT ABSENT 
+		
+		long total_attendance = attendanceLogRep.countAttendance(roll, tableId, date);
+		long P_attendance = attendanceLogRep.countAttendance(roll, tableId, date, "P");
+		long A_attendance = attendanceLogRep.countAttendance(roll, tableId, date, "A");
+		
+		CalculateAttendancePercentage attendancePercentage = new CalculateAttendancePercentage();
+		
+		String P_Percentage = attendancePercentage.calculate(P_attendance, total_attendance);
+		String A_Percentage = attendancePercentage.calculate(A_attendance, total_attendance);
+		
+		lists.add(new String[] {"1","PRESENT",P_Percentage+"%",Long.toString(total_attendance)});
+		lists.add(new String[] {"2","ABSENT",A_Percentage+"%",Long.toString(total_attendance)});
+		
+		return lists;
 	}
 	
 	@GetMapping("/get/attendance/all")
