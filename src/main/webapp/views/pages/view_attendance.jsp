@@ -29,7 +29,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">2024-03-25</h3>
+                  <h3 class="card-title" id="timetitle">2024-03-25</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -63,7 +63,10 @@
               <!-- /.card -->
             </div>
           </div>
-      
+      <div class="d-flex justify-content-between">
+        <button onclick="prev()" class="btn btn-secondary"><i class="bi bi-caret-left-fill"></i></button>
+        <button onclick="next()" class="btn btn-secondary"><i class="bi bi-caret-right-fill"></i></button>
+      </div>
     </div>
 </section>
 
@@ -77,67 +80,94 @@
 -->
 
 <script>
-  let alog = JSON.parse('${alog}');
 
-  let date = [
-      { day: 1, attendance: 'P' },
-      { day: 2, attendance: 'P' },
-      { day: 3, attendance: 'A' },
-      { day: 4, attendance: 'P' },
-      { day: 5, attendance: 'P' },
-      { day: 6, attendance: 'P' },
-      { day: 7, attendance: 'P' },
-      { day: 8, attendance: 'A' },
-      { day: 9, attendance: 'A' },
-      { day: 11, attendance: 'P' },
-      { day: 12, attendance: 'A' },
-      { day: 13, attendance: 'P' },
-      { day: 14, attendance: 'A' },
-      { day: 17, attendance: 'A' },
-      { day: 18, attendance: 'A' },
-      { day: 19, attendance: 'P' },
-      { day: 20, attendance: 'A' },
-      { day: 21, attendance: 'P' },
-      { day: 22, attendance: 'P' },
-      { day: 23, attendance: 'P' },
-      { day: 24, attendance: 'P' },
-      { day: 25, attendance: 'P' },
-      { day: 26, attendance: 'P' },
-  ];
+  let date = new Date().getDate();
+  let month = new Date().getMonth()+1;
+  let year = new Date().getFullYear();
 
-  date = correctAttendanceList(date, getDaysInMont(3,2024));
+  timetitle.innerHTML = year+'-'+num_prefix(month)+'-'+num_prefix(date);
 
-  let count = 0;
-
-  for (let i = 0; i < mod(getDaysInMont(3,2024)/7); i++) {
-    let tr = document.createElement('tr');
-    for (let j = 0; j < 7; j++) {
-      if (count < getDaysInMont(3,2024)) {
-        let td = document.createElement('td');
-        td.className = "text-center";
-        // console.log(date[count].day == (count+1));
-        
-        if (date[count].attendance == "P") {
-          td.innerHTML = '<button class="border border-1 border-black bg-success" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
-        }
-        if (date[count].attendance == "A") {
-          td.innerHTML = '<button class="border border-1 border-black bg-danger" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
-        }
-        if (date[count].attendance == "none") {
-          td.innerHTML = '<button class="border border-1 border-black bg-light" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
-        }
-
-        // td.innerHTML = '<button class="border border-1 border-black py-2 px-3 bg-light">'+date[count].day+'</button>';
-
-        tr.appendChild(td);
-        count++;
-        
-      }else{break;}
+  function prev(){
+    month--;
+    if (month == 0) {
+      month = 12;
+      year--;
     }
-    tset.appendChild(tr);
+    TimeSet();
+    getData(month, year);
   }
 
-  // console.log(mod(date/7));
+  function next(){
+    month++;
+    if (month == 13) {
+      month = 1;
+      year++;
+    }
+    TimeSet();
+    getData(month, year);
+  }
+
+  getData(month, year);
+
+  function getData(month, year){
+    fetch("http://localhost:8080/get/attendance/all?roll=${roll}&id=${sec}&t="+year+'-'+num_prefix(month)).then(res=>res.json()).then(res=>{
+      res = correctAttendanceList(res, getDaysInMont(month,year));
+      console.log(res);
+      display(res, month, year);
+    })
+  }
+
+
+  // let alog = JSON.parse('${alog}');
+  // date = correctAttendanceList(date, getDaysInMont(3,2024));
+
+  function TimeSet(){
+    timetitle.innerHTML = year+'-'+num_prefix(month)+'-'+num_prefix(date);
+    return year+'-'+month;
+  }
+
+  function num_prefix(num){
+    if (num.toString().length<2)
+      return '0'+num;
+    else
+      return num.toString();
+  }
+
+  function display(date, day, month){
+    tset.innerHTML = '';
+    let count = 0;
+  
+    for (let i = 0; i < mod(getDaysInMont(day,month)/7); i++) {
+      let tr = document.createElement('tr');
+      for (let j = 0; j < 7; j++) {
+        if (count < getDaysInMont(day,month)) {
+          let td = document.createElement('td');
+          td.className = "text-center";
+          // console.log(date[count].day == (count+1));
+          
+          if (date[count].attendance == "P") {
+            td.innerHTML = '<button class="border border-1 border-black bg-success" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
+          }
+          if (date[count].attendance == "A") {
+            td.innerHTML = '<button class="border border-1 border-black bg-danger" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
+          }
+          if (date[count].attendance == "none") {
+            td.innerHTML = '<button class="border border-1 border-black bg-light" style="width: 50px; height: 50px; font-size: 22px;">'+date[count].day+'</button>';
+          }
+  
+          // td.innerHTML = '<button class="border border-1 border-black py-2 px-3 bg-light">'+date[count].day+'</button>';
+  
+          tr.appendChild(td);
+          count++;
+          
+        }else{break;}
+      }
+      tset.appendChild(tr);
+    }
+  
+    // console.log(mod(date/7));
+  }
+
 
   function mod(num){
     if (parseInt(num)<num) {

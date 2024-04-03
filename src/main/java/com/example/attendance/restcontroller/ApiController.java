@@ -2,6 +2,7 @@ package com.example.attendance.restcontroller;
 
 import java.lang.reflect.Array;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.example.attendance.dao.AttendanceLogRep;
 import com.example.attendance.dao.AttendanceRep;
 import com.example.attendance.dao.SectionRef;
 import com.example.attendance.dao.StudentRep;
+import com.example.attendance.entites.Alog;
 import com.example.attendance.entites.Attendance;
 import com.example.attendance.entites.AttendanceLog;
 import com.example.attendance.entites.Section;
@@ -141,6 +143,18 @@ public class ApiController {
 	@GetMapping("/get/attendance/log")
 	public List<AttendanceLog> getAttendanceLog(@RequestParam ("id") int tableId, @RequestParam ("t") String date) {
 		return attendanceLogRep.getAttendance(tableId, date);
+	}
+	
+	@GetMapping("/get/attendance/all")
+	public List<Alog> getAttendanceLog(@RequestParam ("roll") String roll, @RequestParam ("id") int tableId, @RequestParam ("t") String date) {
+		List<AttendanceLog> attendance = attendanceLogRep.getAttendance(roll, tableId, date);
+		List<Alog> alogs = new ArrayList<Alog>();
+		
+		attendance.forEach(value->{
+			alogs.add(new Alog(value.getAUP().getDate(), value.getAttendance()));
+		});
+		
+		return alogs;
 	}
 	
 	@PostMapping("/update/attendance/log")

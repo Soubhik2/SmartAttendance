@@ -100,13 +100,13 @@ public class AdminController {
 		model.addAttribute("page", "view_attendance");
 		model.addAttribute("roll", roll);
 		model.addAttribute("sec", sec);
-		model.addAttribute("count", attendanceLogRep.countAttendance(roll, sec, "2024-01", "P"));
-		try {
-			model.addAttribute("alog", new ObjectMapper().writeValueAsString(attendanceLogRep.getAttendance(roll, sec, "2024-01")));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		model.addAttribute("count", attendanceLogRep.countAttendance(roll, sec, "2024-01", "P"));
+//		try {
+//			model.addAttribute("alog", new ObjectMapper().writeValueAsString(attendanceLogRep.getAttendance(roll, sec, "2024-01")));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return "admin";
 	}
 	
